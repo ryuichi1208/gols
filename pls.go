@@ -12,3 +12,25 @@ func main() {
     fmt.Println(en, "len:", len(en))
     fmt.Println(ja, "len:", len(ja))
 }
+
+func Retry() error {
+    var retries int
+    maxRetries := 5
+
+    for {
+        err = Something()
+        if err != nil {
+            if retries > maxRetries {
+                return err
+            }
+
+            waitTime := 2 ^ retries + rand.Intn(1000)/1000
+            time.Sleep(time.Duration(waitTime) * time.Second)
+
+            retries++
+            continue
+        }
+        break
+    }
+    return nil
+}
